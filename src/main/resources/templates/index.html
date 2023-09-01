@@ -241,33 +241,85 @@
             font-weight: normal;
         }
     </style>
-    <script>
-        function getRow(btn) {
-            selectedrow = btn.parentElement.parentElement;
-            const email = selectedrow.cells[2].innerHTML;
-            const editUserForm = document.getElementById("editUserForm");
-            editUserForm.action = `/user/updateUser/${email}`;
-            document.getElementById("fname").value = selectedrow.cells[0].innerHTML;
-            document.getElementById("lname").value = selectedrow.cells[1].innerHTML;
-            document.getElementById("email").value = selectedrow.cells[2].innerHTML;
-            document.getElementById("dateob").value = selectedrow.cells[3].innerHTML;
-            document.getElementById("pno").value = selectedrow.cells[4].innerHTML;
-            document.getElementById("address").value = selectedrow.cells[5].innerHTML;
-            console.log("hi")
-            document.getElementById("editEmployeeModal").style.display = "block";
-        }
-        function reset1() {
-            document.getElementById("fname").value = "";
-            document.getElementById("lname").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("dateob").value = "";
-            document.getElementById("pno").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("editEmployeeModal").style.display = "none";
-        }
-    </script>
+<!--    <script>-->
+
+
+
+
+
+<!--        function getRow(btn) {-->
+<!--             console.log("hi")-->
+<!--            selectedrow = btn.parentElement.parentElement;-->
+<!--            const email = selectedrow.cells[2].innerHTML;-->
+<!--            const editUserForm = document.getElementById("editUserForm");-->
+<!--            editUserForm.action = `/user/updateUser/${email}`;-->
+<!--            document.getElementById("fname").value = selectedrow.cells[0].innerHTML;-->
+<!--            document.getElementById("lname").value = selectedrow.cells[1].innerHTML;-->
+<!--            document.getElementById("email").value = selectedrow.cells[2].innerHTML;-->
+<!--            document.getElementById("dateob").value = selectedrow.cells[3].innerHTML;-->
+<!--            document.getElementById("pno").value = selectedrow.cells[4].innerHTML;-->
+<!--            document.getElementById("address").value = selectedrow.cells[5].innerHTML;-->
+
+<!--            document.getElementById("editEmployeeModal").style.display = "block";-->
+<!--        }-->
+<!--        function reset1() {-->
+<!--            document.getElementById("fname").value = "";-->
+<!--            document.getElementById("lname").value = "";-->
+<!--            document.getElementById("email").value = "";-->
+<!--            document.getElementById("dateob").value = "";-->
+<!--            document.getElementById("pno").value = "";-->
+<!--            document.getElementById("address").value = "";-->
+<!--            document.getElementById("editEmployeeModal").style.display = "none";-->
+<!--        }-->
+
+<!--        function validatefname(){-->
+<!--        console.log("yet to reach");-->
+<!--         var fname=document.getElementById("firstNameid");-->
+<!--         var regName = /\d+$/g;-->
+<!--         if (fname == "" || !regName.test(regName)) {-->
+<!--        window.alert("Please enter your firstname properly.");-->
+
+<!--       }-->
+
+<!--        function validatelname(){-->
+<!--         var lname=document.getElementById("lastNameid");-->
+<!--         var regName = /\d+$/g;-->
+<!--         if (lname == "" || !regName.test(regName)) {-->
+<!--        window.alert("Please enter your lastname properly.");-->
+
+<!--       }-->
+<!--        function validateemail(){-->
+<!--           var regEmail=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;-->
+<!--        var email=document.getElementById("emailid");-->
+<!--           var regEmail=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;-->
+<!--         if (email == "" || !regEmail.test(email)) {-->
+<!--    window.alert("Please enter a valid e-mail address.");-->
+
+<!--        }-->
+<!--        }-->
+<!--        function validatedate(){-->
+<!--          var date=document.getElementById("dateOfBirth");-->
+<!--           var dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;-->
+<!--           if(date=="" || !dateformat.test(date)){-->
+<!--            window.alert("Please enter a valid date");-->
+<!--        }-->
+<!--        }-->
+<!--         function validatephoneno(){-->
+<!--           var phno=document.getElementById("phoneNoid");-->
+<!--            var regphoneno = /^\d{10}$/;-->
+<!--           if(phno=="" || !regphoneno.test(phno)){-->
+<!--            window.alert("Please enter a valid phone No");-->
+<!--        }-->
+<!--        }-->
+<!--        function validateaddress(){-->
+<!--          var address=document.getElementById("addressid");-->
+<!--          if(address!=""){-->
+<!--              window.alert("Please enter a valid address ");-->
+<!--          }-->
+<!--        }-->
+<!--    </script>-->
 </head>
-<body>
+<body onload="limitDate()">
 <div class="container-xl">
     <div class="table-responsive">
         <div class="table-wrapper">
@@ -302,7 +354,7 @@
                     <td th:text="${todo.phoneNo}"></td>
                     <td th:text="${todo.address}"></td>
                     <td>
-                        <button class="edit" onclick="getRow(this)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+                        <button class="edit" onclick="getRow(this)" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
                        <form id="deleteForm" th:action="@{/user/deleteUser/{email_Id}(email_Id=${todo.email})}" method="post">
                            <button class="delete" type="submit" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
                        </form>
@@ -324,28 +376,28 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" name="firstName" required>
+                        <label >First Name</label>
+                        <input onchange="validatefname(this)" type="text" class="form-control" id="firstNameid" name="firstName"/>
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" name="lastName" required>
+                        <input onchange="validatelname(this)" type="text" class="form-control" id="lastNameid" name="lastName" >
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" class="form-control" name="email" required>
+                        <input onchange="validateemail(this)" type="email" class="form-control" id="emailid" name="email" >
                     </div>
                     <div class="form-group">
                         <label>Phone No</label>
-                        <input type="text" class="form-control" name="phoneNo" required>
+                        <input onchange="validatephoneno(this)" type="text" class="form-control" id="phoneNoid" name="phoneNo" >
                     </div>
                     <div class="form-group">
                         <label>Address</label>
-                        <textarea class="form-control" name="address" required></textarea>
+                        <textarea onclick="validateaddress()"class="form-control" id="addressid" name="address" ></textarea>
                     </div>
                     <div class="form-group">
                         <label>Date Of Birth</label>
-                        <input type="date" class="form-control" name="dateOfBirth" required>
+                        <input onclick="" type="date" class="form-control"  id="dateOfBirthid" name="dateOfBirth" >
                     </div>
 
                 </div>
@@ -395,7 +447,6 @@
                 <div class="modal-footer">
                     <button type="reset" onclick="reset1()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
 
-<!--                    <input type="button" onclick="reset1()" class="btn btn-default" data-dismiss="modal" value="Cancel">-->
                     <input type="submit" class="btn btn-success" value="Add">
                 </div>
             </form>
@@ -422,5 +473,71 @@
         </div>
     </div>
 </div>
+<script>
+
+    function sample(examp){
+       console.log(examp.value);
+    }
+
+    function getRow(btn) {
+         console.log("hi")
+        selectedrow = btn.parentElement.parentElement;
+        const email = selectedrow.cells[2].innerHTML;
+        const editUserForm = document.getElementById("editUserForm");
+        editUserForm.action = `/user/updateUser/${email}`;
+        document.getElementById("fname").value = selectedrow.cells[0].innerHTML;
+        document.getElementById("lname").value = selectedrow.cells[1].innerHTML;
+        document.getElementById("email").value = selectedrow.cells[2].innerHTML;
+        document.getElementById("dateob").value = selectedrow.cells[3].innerHTML;
+        document.getElementById("pno").value = selectedrow.cells[4].innerHTML;
+        document.getElementById("address").value = selectedrow.cells[5].innerHTML;
+
+        document.getElementById("editEmployeeModal").style.display = "block";
+    }
+    function reset1() {
+        document.getElementById("fname").value = "";
+        document.getElementById("lname").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("dateob").value = "";
+        document.getElementById("pno").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("editEmployeeModal").style.display = "none";
+    }
+
+    function validatefname(fname){
+    console.log("yet to reach"+fname.value);
+     let samp = fname.value;
+     let regName = /[0-9]/;
+     if (samp == "" || regName.test(samp))
+    window.alert("Please enter your firstname properly.");
+
+   }
+     function validatelname(lname){
+         let samp1 = lname.value;
+         var regName1 = /[0-9]/;
+         if (samp1 == "" || regName1.test(samp1))
+        window.alert("Please enter your lastname properly.");
+
+       }
+
+      function validateemail(email){
+        let samp2=email.value;
+        var regEmail=/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+        if(samp2== "" || !regEmail.test(samp2))
+        window.alert("Please enter your valid email");
+     }
+    function validatephoneno(phNo){
+        let samp3=phNo.value;
+        var regPhone=  /^(\d{3})[- ]?(\d{3})[- ]?(\d{4})$/;
+        if(samp3== "" || !regPhone.test(samp3))
+        window.alert("Please enter your valid PhoneNumber");
+     }
+    function limitDate(){
+        let today = new Date().toISOString().split("T")[0];
+        document.getElementById("dateOfBirthid").setAttribute("max",today);
+    }
+
+
+</script>
 </body>
 </html>
