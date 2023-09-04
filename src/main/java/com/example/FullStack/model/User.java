@@ -2,6 +2,8 @@ package com.example.FullStack.model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "user_info")
 public class User {
@@ -22,6 +24,16 @@ public class User {
     @Column(name = "date_of_birth")
     private String dateOfBirth;
 
+    @Column(name = "date")
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -65,14 +77,15 @@ public class User {
     public void setAddress(String address) {this.address = address;}
 
     @Override
-    public String toString(){
+    public String toString() {
         return "User{" +
                 "email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", address='" + address + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 }

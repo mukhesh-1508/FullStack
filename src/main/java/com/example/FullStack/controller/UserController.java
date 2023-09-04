@@ -4,6 +4,7 @@ import com.example.FullStack.exception.ResourceNotFoundException;
 import com.example.FullStack.model.User;
 import com.example.FullStack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -20,16 +22,20 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+
     @RequestMapping("")
-    public String start(Model model){
-        List<User> userList = userRepository.findAll();
+    public String start(Model model,@RequestParam(required = false) String message){
+        List<User> userList = userRepository.findAll(Sort.by("date").descending());
         model.addAttribute("userList",userList);
+        model.addAttribute("res",message);
         return "index";
     }
 
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<User>> getAllUser(Model model){
-        List<User> userList = userRepository.findAll();
+
+        List<User> userList = userRepository.findAll(Sort.by("date").descending());
+        System.out.println(userList);
         model.addAttribute("userList",userList);
         return ResponseEntity.ok(userList);
     }
@@ -42,8 +48,12 @@ public class UserController {
             })
     public String createUser(User user){
 
-        userRepository.save(user);
-        return "redirect:/user";
+        user.setDate(new Date());
+        if(userRepository.findByEmail(user.getEmail())==null){
+            userRepository.save(user);
+            return "redirect:/user?message="+ "Added";
+        }
+        return "redirect:/user?message="+ "Failed";
     }
 
     @RequestMapping(path = "/updateUser/{email_Id}",
@@ -62,6 +72,7 @@ public class UserController {
         updateUser.setAddress(userDetails.getAddress());
         updateUser.setDateOfBirth(String.valueOf(userDetails.getDateOfBirth()));
         updateUser.setPhoneNo(userDetails.getPhoneNo());
+        updateUser.setDate(new Date());
         userRepository.save(updateUser);
         return "redirect:/user";
     }
