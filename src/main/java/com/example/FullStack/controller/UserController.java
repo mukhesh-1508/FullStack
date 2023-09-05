@@ -25,10 +25,11 @@ public class UserController {
 
     @RequestMapping("")
     public String start(Model model,@RequestParam(required = false) String message){
+        System.out.println("hi");
         List<User> userList = userRepository.findAll(Sort.by("date").descending());
         model.addAttribute("userList",userList);
         model.addAttribute("res",message);
-        return "index";
+        return "form";
     }
 
     @GetMapping("/getAllUsers")
@@ -49,33 +50,35 @@ public class UserController {
     public String createUser(User user){
 
         user.setDate(new Date());
+        System.out.println(user);
         if(userRepository.findByEmail(user.getEmail())==null){
             userRepository.save(user);
+            System.out.println("came");
             return "redirect:/user?message="+ "Added";
         }
         return "redirect:/user?message="+ "Failed";
     }
 
-    @RequestMapping(path = "/updateUser/{email_Id}",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            produces = {
-                    MediaType.APPLICATION_ATOM_XML_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE
-            })
-    public String updateUser(@PathVariable String email_Id,User userDetails){
-        User updateUser=userRepository.findByEmail(email_Id);
-        System.out.println(userDetails);
-        updateUser.setFirstName(userDetails.getFirstName());
-        updateUser.setLastName(userDetails.getLastName());
-        updateUser.setEmail(userDetails.getEmail());
-        updateUser.setAddress(userDetails.getAddress());
-        updateUser.setDateOfBirth(String.valueOf(userDetails.getDateOfBirth()));
-        updateUser.setPhoneNo(userDetails.getPhoneNo());
-        updateUser.setDate(new Date());
-        userRepository.save(updateUser);
-        return "redirect:/user";
-    }
+//    @RequestMapping(path = "/updateUser/{email_Id}",
+//            method = RequestMethod.POST,
+//            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+//            produces = {
+//                    MediaType.APPLICATION_ATOM_XML_VALUE,
+//                    MediaType.APPLICATION_JSON_VALUE
+//            })
+//    public String updateUser(@PathVariable String email_Id,User userDetails){
+//        User updateUser=userRepository.findByEmail(email_Id);
+//        System.out.println(userDetails);
+//        updateUser.setFirstName(userDetails.getFirstName());
+//        updateUser.setLastName(userDetails.getLastName());
+//        updateUser.setEmail(userDetails.getEmail());
+//        updateUser.setAddress(userDetails.getAddress());
+//        updateUser.setDateOfBirth(String.valueOf(userDetails.getDateOfBirth()));
+//        updateUser.setPhoneNo(userDetails.getPhoneNo());
+//        updateUser.setDate(new Date());
+//        userRepository.save(updateUser);
+//        return "redirect:/form";
+//    }
     @RequestMapping(path = "/deleteUser/{email_Id}",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,

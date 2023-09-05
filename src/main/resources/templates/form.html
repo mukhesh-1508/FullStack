@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(to right top, pink, skyblue);
+        }
+        .container {
+            text-align: center;
+            display: none;
+            position: absolute;
+            top: 20px;
+            width: 100%;
+        }
+
+        .form {
+            width: 40%;
+            margin: 150px auto auto auto ;
+            padding: 40px;
+            border-radius: 20px;
+            background: linear-gradient(to left top, #cdf5ff, pink);
+            box-shadow: 6px 7px 10px gray;
+        }
+
+        .form-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding-bottom: 10px;
+        }
+
+        .form-input label {
+            text-align: left;
+        }
+
+        .form-input input, .form-input textarea {
+            display: grid;
+            grid-column: 2;
+        }
+
+        button {
+            cursor: pointer;
+           }
+
+        .submit-btn {
+            display: grid;
+            width: 120px;
+            margin: auto;
+            padding-top: 20px;
+        }
+
+        input, textarea, button{
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        .opacity-5 {
+            opacity: 0.2;
+        }
+
+        .opacity-1 {
+            opacity: 1;
+        }
+
+        .display-hidden {
+            display: none;
+        }
+
+        .display-block {
+            display: block;
+        }
+
+        .table {
+            width: 80%;
+            margin: 50px auto auto auto;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black; /* Add borders to table header cells and table data cells */
+            padding: 8px;
+            text-align: left;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="table" class="table">
+    <div class="table-title">
+        <div class="">
+            <div class="">
+                <h2>User Details</h2>
+            </div>
+            <div class="">
+                <button onclick="handleAddBtn()">Add</button>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Date Of Birth</th>
+            <th>Phone No</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo : ${userList}">
+            <td th:text="${todo.firstName}"></td>
+            <td th:text="${todo.lastName}"></td>
+            <td th:text="${todo.email}"></td>
+            <td th:text="${todo.dateOfBirth}"></td>
+            <td th:text="${todo.phoneNo}"></td>
+            <td th:text="${todo.address}"></td>
+            <td>
+                <button onclick="handleEditRow()">Edit</button>
+                <form  th:action="@{/user/deleteUser/{email_Id}(email_Id=${todo.email})}" method="post">
+                <button type="submit" >Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="container" class="container">
+    <h2>Form</h2>
+    <form class="form" action="/user/createUser" method="POST">
+        <h4 class="form-title" id="form-title">Add Employee</h4>
+        <div class="form-body">
+            <div class="form-input">
+                <label >First Name</label>
+                <input onchange="validatefname(this)" type="text" id="firstName" name="firstName"/></button>
+            </div>
+            <div class="form-input">
+                <label>Last Name</label>
+                <input onchange="validatelname(this)" type="text" id="lastName" name="lastName" >
+            </div>
+            <div class="form-input">
+                <label>Email</label>
+                <input onchange="validateemail(this)" type="email" id="email" name="email"  >
+            </div>
+            <div class="form-input">
+                <label>Phone No</label>
+                <input onchange="validatephoneno(this)" type="text" id="phoneNo" name="phoneNo" maxlength="10">
+            </div>
+            <div class="form-input">
+                <label>Address</label>
+                <textarea onchange="validateaddress(this)" id="address" name="address" ></textarea>
+            </div>
+            <div class="form-input">
+                <label>Date Of Birth</label>
+                <input onclick="limitDate()" type="date" id="dateOfBirth" name="dateOfBirth" >
+            </div>
+            <div class="submit-btn">
+                <button type="submit" onclick="">Submit</button>
+                <button type="reset" onclick="">Cancel</button>
+            </div>
+
+
+        </div>
+
+    </form>
+</div>
+<script>
+    const handleAddBtn = () => {
+        document.getElementById("table").classList.add("opacity-5");
+        document.getElementById("container").classList.add("display-block");
+    }
+
+
+    const handleEdit = () => {
+        document.getElementById("table").classList.add("opacity-5");
+        document.getElementById("container").classList.add("display-block");
+    }
+
+    const handleSubmit = () => {
+        document.getElementById("table").classList.remove("opacity-5");
+        document.getElementById("container").classList.add("display-block");
+    }
+
+function validatefname(fname){
+    console.log("yet to reach"+fname.value);
+     let samp = fname.value;
+     let regName = /[0-9]/;
+     if (samp == "" || regName.test(samp))
+    window.alert("Please enter your firstname properly.");
+
+   }
+     function validatelname(lname){
+         let samp1 = lname.value;
+         var regName1 = /[0-9]/;
+         if (samp1 == "" || regName1.test(samp1))
+        window.alert("Please enter your lastname properly.");
+
+       }
+
+      function validateemail(email){
+        let samp2=email.value;
+        var regEmail=/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+        if(samp2== "" || !regEmail.test(samp2))
+        window.alert("Please enter your valid email");
+     }
+    function validatephoneno(phNo){
+        let samp3=phNo.value;
+        var regPhone=  /^(\d{3})[- ]?(\d{3})[- ]?(\d{4})$/;
+        if(samp3== "" || !regPhone.test(samp3))
+        window.alert("Please enter your valid PhoneNumber");
+     }
+     function validateaddress(address){
+         let adds=address.value;
+         if(adds==""||adds.length>=50)
+         window.alert("Please enter your valid address");
+     }
+    function limitDate(){
+        let today = new Date().toISOString().split("T")[0];
+        document.getElementById("dateOfBirth").setAttribute("max",today);
+    }
+</script>
+</body>
+</html>
