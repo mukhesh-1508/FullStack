@@ -24,8 +24,22 @@ public class User {
     @Column(name = "date_of_birth")
     private String dateOfBirth;
 
-    @Column(name = "date")
+    @Column(name="date")
     private Date date;
+
+    public User(String email,String firstName, String lastName, String phoneNo, String address, String dateOfBirth, Date date) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNo = phoneNo;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.date = date;
+    }
+
+    public User() {
+
+    }
 
     public Date getDate() {
         return date;

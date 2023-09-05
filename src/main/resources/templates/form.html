@@ -51,10 +51,11 @@
            }
 
         .submit-btn {
-            display: grid;
-            width: 120px;
-            margin: auto;
-            padding-top: 20px;
+                display: flex;
+    width: 120px;
+    margin: auto;
+    padding-top: 20px;
+    gap: 1rem;
         }
 
         input, textarea, button{
@@ -95,18 +96,34 @@
             padding: 8px;
             text-align: left;
         }
+        .ed{
+            display:flex;
+            gap:1rem;
+        }
+        .front{
+           display:flex;
+           justify-content: center;
+           position:relative;
+        }
+        .Addbtn
+        {
+    position: absolute;
+    right: 97px;
+    top: 22px;
+        }
 
 
     </style>
 </head>
 <body>
 <div id="table" class="table">
+    <img src="../static/logo.png" />
     <div class="table-title">
-        <div class="">
+        <div class="front">
             <div class="">
                 <h2>User Details</h2>
             </div>
-            <div class="">
+            <div class="Addbtn">
                 <button onclick="handleAddBtn()">Add</button>
             </div>
         </div>
@@ -131,8 +148,8 @@
             <td th:text="${todo.dateOfBirth}"></td>
             <td th:text="${todo.phoneNo}"></td>
             <td th:text="${todo.address}"></td>
-            <td>
-                <button onclick="handleEditRow()">Edit</button>
+            <td style="display:flex; column-gap:6px;">
+                <button onclick="handleEditRow(this)">Edit</button>
                 <form  th:action="@{/user/deleteUser/{email_Id}(email_Id=${todo.email})}" method="post">
                 <button type="submit" >Delete</button>
                 </form>
@@ -142,37 +159,36 @@
     </table>
 </div>
 <div id="container" class="container">
-    <h2>Form</h2>
-    <form class="form" action="/user/createUser" method="POST">
+    <form id="userForm" class="form" action="/user/createUser" method="POST">
         <h4 class="form-title" id="form-title">Add Employee</h4>
         <div class="form-body">
             <div class="form-input">
                 <label >First Name</label>
-                <input onchange="validatefname(this)" type="text" id="firstName" name="firstName"/></button>
+                <input onchange="validatefname(this)" type="text" id="firstName" name="firstName" required/></button>
             </div>
             <div class="form-input">
                 <label>Last Name</label>
-                <input onchange="validatelname(this)" type="text" id="lastName" name="lastName" >
+                <input onchange="validatelname(this)" type="text" id="lastName" name="lastName" required>
             </div>
             <div class="form-input">
                 <label>Email</label>
-                <input onchange="validateemail(this)" type="email" id="email" name="email"  >
+                <input onchange="validateemail(this)" type="email" id="email" name="email" required >
             </div>
             <div class="form-input">
                 <label>Phone No</label>
-                <input onchange="validatephoneno(this)" type="text" id="phoneNo" name="phoneNo" maxlength="10">
+                <input onchange="validatephoneno(this)" type="text" id="phoneNo" name="phoneNo" maxlength="10" required>
             </div>
             <div class="form-input">
                 <label>Address</label>
-                <textarea onchange="validateaddress(this)" id="address" name="address" ></textarea>
+                <textarea onchange="validateaddress(this)" id="address" name="address" required></textarea>
             </div>
             <div class="form-input">
                 <label>Date Of Birth</label>
-                <input onclick="limitDate()" type="date" id="dateOfBirth" name="dateOfBirth" >
+                <input onclick="limitDate()" type="date" id="dateOfBirth" name="dateOfBirth" required>
             </div>
             <div class="submit-btn">
-                <button type="submit" onclick="">Submit</button>
-                <button type="reset" onclick="">Cancel</button>
+                <button type="submit" id="sbtn" onclick="">Submit</button>
+                <button type="reset" onclick="reset1()">Cancel</button>
             </div>
 
 
@@ -180,14 +196,32 @@
 
     </form>
 </div>
+
 <script>
-    const handleAddBtn = () => {
+    function handleAddBtn() {
+        console.log("hi")
+        document.getElementById("form-title").innerHTML = "Add Employee"
+        document.getElementById("sbtn").innerHTML = "Add"
         document.getElementById("table").classList.add("opacity-5");
         document.getElementById("container").classList.add("display-block");
     }
 
 
-    const handleEdit = () => {
+    const handleEditRow = (btn) => {
+         selectedrow = btn.parentElement.parentElement;
+        const email = selectedrow.cells[2].innerHTML;
+        const editUserForm = document.getElementById("userForm");
+        editUserForm.action = `/user/updateUser/${email}`;
+        document.getElementById("firstName").value = selectedrow.cells[0].innerHTML;
+        document.getElementById("lastName").value = selectedrow.cells[1].innerHTML;
+        document.getElementById("email").value= email;
+        document.getElementById("dateOfBirth").value = selectedrow.cells[3].innerHTML;
+        document.getElementById("phoneNo").value = selectedrow.cells[4].innerHTML;
+        document.getElementById("address").value = selectedrow.cells[5].innerHTML;
+
+        document.getElementById("form-title").innerHTML = "Edit Employee"
+        document.getElementById("sbtn").innerHTML = "Update"
+
         document.getElementById("table").classList.add("opacity-5");
         document.getElementById("container").classList.add("display-block");
     }
@@ -195,6 +229,10 @@
     const handleSubmit = () => {
         document.getElementById("table").classList.remove("opacity-5");
         document.getElementById("container").classList.add("display-block");
+    }
+      function reset1() {
+        document.getElementById("table").classList.remove("opacity-5");
+        document.getElementById("container").classList.remove("display-block");
     }
 
 function validatefname(fname){
@@ -234,6 +272,27 @@ function validatefname(fname){
         let today = new Date().toISOString().split("T")[0];
         document.getElementById("dateOfBirth").setAttribute("max",today);
     }
+<!--    if(document.getElementById("res").innerHTML.toString() === "Added"){-->
+<!--      alertMsg1()-->
+<!--   }-->
+<!--   else if(document.getElementById("res").innerHTML.toString() === "Failed"){-->
+<!--      alertMsg()-->
+<!--   }-->
+<!--    function alertMsg(){-->
+<!--       swal({-->
+<!--        icon: 'error',-->
+<!--        title: 'Oops...',-->
+<!--        text: 'User Already Exist!'-->
+<!--     })-->
+<!--    }-->
+<!--      function alertMsg1(){-->
+<!--       swal({-->
+<!--        icon: 'success',-->
+<!--        title: 'Done...',-->
+<!--        text: 'User Added successfully!'-->
+<!--     })-->
+<!--    }-->
+
 </script>
 </body>
 </html>
