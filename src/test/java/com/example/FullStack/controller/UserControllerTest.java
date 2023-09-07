@@ -66,7 +66,7 @@ public class UserControllerTest {
         User user = new User();
         when(userRepository.findByEmail(anyString())).thenReturn(null);
         String response = userController.createUser(user);
-        Assert.assertEquals("redirect:/user?message=" + "Added", response);
+        Assert.assertEquals("redirect:/user?status=" + "true", response);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class UserControllerTest {
 
         when(userRepository.findByEmail(anyString())).thenReturn(user);
         String response = userController.createUser(user);
-        Assert.assertEquals("redirect:/user?message=" + "Failed", response);
+        Assert.assertEquals("redirect:/user?status=" + "false", response);
     }
 
     @Test

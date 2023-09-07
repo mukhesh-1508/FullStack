@@ -44,9 +44,9 @@ public class UserController {
         System.out.println(user);
         if (userRepository.findByEmail(user.getEmail()) == null) {
             userRepository.save(user);
-            return "redirect:/user?message=" + "Added";
+            return "redirect:/user?status=true";
         }
-        return "redirect:/user?message=" + "Failed";
+        return "redirect:/user?status=false";
     }
 
     @RequestMapping(path = "/updateUser/{email_Id}",
