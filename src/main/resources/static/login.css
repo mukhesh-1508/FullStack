@@ -1,0 +1,57 @@
+.form{
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+column-gap:20px;
+padding-top: 10%;
+gap: 10%;
+background-color: lightgray;
+width: 50%;
+margin-left: auto;
+margin-right: auto;
+padding-bottom: 10%;
+}
+.submit{
+background-color: white;
+}
+.logo{
+align-items: top;
+}
+
+form {
+display: grid;
+grid-template-columns: 1fr 1fr ;
+justify-content: center;
+}
+
+form div {
+padding-bottom: 10px;
+text-align: center;
+}
+.login{
+justify-content: center;
+text-align: center;
+font-size: large;
+}
+.signup{
+padding-top: 10%;
+}
+  #submit-btn1{
+            text-decoration: none;
+            color: black;
+            border: 1px solid black;
+            padding: 5px 10px;
+            background-color: white;
+ }
+  #submit-btn{
+             text-decoration: none;
+             color: black;
+             border: 1px solid black;
+             padding: 5px 10px;
+             background-color: white;
+  }
+
+        .dha{
+          padding-top:10%;
+        }

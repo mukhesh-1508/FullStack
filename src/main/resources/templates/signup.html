@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="/signup.css">
+</head>
+<body>
+<form id="userForm" class="form" action="/user/createUser" method="POST">
+  <h4 class="form-title" id="form-title">Add Employee</h4>
+  <div class="form-body">
+    <div class="form-input">
+      <label >First Name</label>
+      <input onchange="validatefname(this)" type="text" id="firstName" name="firstName" required/></button>
+    </div>
+    <div class="form-input">
+      <label>Last Name</label>
+      <input onchange="validatelname(this)" type="text" id="lastName" name="lastName" required>
+    </div>
+    <div class="form-input">
+      <label>Email</label>
+      <input onchange="validateemail(this)" type="email" id="email" name="email" required >
+    </div>
+    <div class="form-input">
+      <label>Phone No</label>
+      <input onchange="validatephoneno(this)" type="text" id="phoneNo" name="phoneNo" maxlength="10" required>
+    </div>
+    <div class="form-input">
+      <label>Address</label>
+      <textarea onchange="validateaddress(this)" id="address" name="address" maxlength="50" required></textarea>
+    </div>
+    <div class="form-input dob">
+      <label>Date of Birth</label>
+      <input onclick="limitDate()" onblur="validateDate(this)" type="date" id="dateOfBirth" name="dateOfBirth" required>
+    </div>
+    <div class="form-input ">
+      <label>Password</label>
+      <input  onchange="validatePassword(this)" type="text" id="password" name="password" required>
+    </div>
+    <div >
+      <div class="signup">
+             <button id="submit-btn1" >signup</button>
+      </div>
+      <div class="cancel">
+      <a id="cancel-btn" th:href="@{/user/login}" style="text-decoration: none;
+            color: black;
+            border: 1px solid black;
+            padding: 5px 10px;
+            background-color: white;">Cancel</a>
+      </div>
+    </div>
+
+
+
+  </div>
+
+</form>
+
+</body>
+<script src="/signup.js/"></script>
+</html>

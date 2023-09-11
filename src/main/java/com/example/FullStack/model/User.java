@@ -27,6 +27,9 @@ public class User {
     @Column(name="date")
     private Date date;
 
+    @Column(name = "password")
+    private String password;
+
     public User(String email,String firstName, String lastName, String phoneNo, String address, String dateOfBirth, Date date) {
         this.email = email;
         this.firstName = firstName;
@@ -35,6 +38,7 @@ public class User {
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.date = date;
+        this.password=password;
     }
 
     public User() {
@@ -84,7 +88,13 @@ public class User {
 
     public void setPhoneNo(String phoneNo) {this.phoneNo = phoneNo;}
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getAddress() {return address;}
 
@@ -99,7 +109,8 @@ public class User {
                 ", phoneNo='" + phoneNo + '\'' +
                 ", address='" + address + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", date='" + date + '\'' +
+                ", date=" + date +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

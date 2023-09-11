@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,15 +22,45 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+     @GetMapping("/signup")
+    public String signup() {
+        return "signup";
+    }
 
 
-    @RequestMapping("")
+
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/checkEmail")
+    public String checkEmail(User user){
+         User user1 = userRepository.findByEmail(user.getEmail());
+         if(user1!=null){
+             if(user.getPassword().equals(user1.getPassword())){
+                 return "user";
+             }else{
+                 return "login";
+             }
+         }else{
+             return "login";
+         }
+    }
+
+
+
+
+    @GetMapping("/form")
     public String start(Model model) {
+        System.out.println("HIIIII");
         Page<User> userList = userRepository.findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "date")));
         model.addAttribute("userList", userList);
 
         return "form";
     }
+
 
     @RequestMapping(path = "/createUser",
             method = RequestMethod.POST,
@@ -44,9 +75,10 @@ public class UserController {
         System.out.println(user);
         if (userRepository.findByEmail(user.getEmail()) == null) {
             userRepository.save(user);
-            return "redirect:/user?status=true";
+
         }
-        return "redirect:/user?status=false";
+        return "login";
+
     }
 
     @RequestMapping(path = "/updateUser/{email_Id}",
@@ -65,7 +97,7 @@ public class UserController {
         updateUser.setPhoneNo(userDetails.getPhoneNo());
         updateUser.setDate(new Date());
         userRepository.save(updateUser);
-        return "redirect:/user";
+        return "redirect:/user/form";
     }
 
     @RequestMapping(path = "/deleteUser/{email_Id}",
@@ -80,7 +112,7 @@ public class UserController {
 
         userRepository.delete(user);
 
-        return "redirect:/user";
+        return "redirect:/user/form";
 
     }
 }
