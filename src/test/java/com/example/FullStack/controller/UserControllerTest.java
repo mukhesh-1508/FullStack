@@ -66,7 +66,7 @@ public class UserControllerTest {
         User user = new User();
         when(userRepository.findByEmail(anyString())).thenReturn(null);
         String response = userController.createUser(user);
-        Assert.assertEquals("redirect:/user?status=" + "true", response);
+        Assert.assertEquals("login", response);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class UserControllerTest {
 
         when(userRepository.findByEmail(anyString())).thenReturn(user);
         String response = userController.createUser(user);
-        Assert.assertEquals("redirect:/user?status=" + "false", response);
+        Assert.assertEquals("login", response);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class UserControllerTest {
         User user = new User("prasath@gmail.com", "prasath", "ganesan", "909090900", "domlur", "2023-03-12", new Date());
         when(userRepository.findByEmail(anyString())).thenReturn(null);
         String response = userController.deleteUser("prasath@gmail.com");
-        Assert.assertEquals("redirect:/user", response);
+        Assert.assertEquals("redirect:/user/form", response);
 
     }
 
@@ -98,7 +98,7 @@ public class UserControllerTest {
 
         String response = userController.updateUser("prasath@gmail.com", user);
 
-        Assert.assertEquals("redirect:/user", response);
+        Assert.assertEquals("redirect:/user/form", response);
 
     }
 

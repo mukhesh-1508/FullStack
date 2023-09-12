@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/userform.css">
+</head>
+<body>
+<div id="table" class="table">
+
+    <div class="table-title">
+        <div class="front">
+            <img id="img" src="/logo.png" />
+            <div class="">
+                <h2 id="user">User Details</h2>
+            </div>
+
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Date of Birth</th>
+            <th>Phone No</th>
+            <th>Address</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo : ${user}">
+            <td th:text="${todo.firstName}"></td>
+            <td th:text="${todo.lastName}"></td>
+            <td th:text="${todo.email}"></td>
+            <td th:text="${todo.dateOfBirth}"></td>
+            <td th:text="${todo.phoneNo}"></td>
+            <td th:text="${todo.address}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script >
+
+</script>
+</html>

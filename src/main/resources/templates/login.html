@@ -16,9 +16,9 @@
 <div class="login">
     LOGIN
 </div>
-<div class="form"  action="/user/checkEmail" method="POST">
+<div class="form"  >
 
-    <form>
+    <form action="/user/checkEmail" method="POST">
 
         <div>
             Email :
@@ -34,8 +34,9 @@
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr; grid-column: span 2; width: 50%; margin-left: auto;" >
-            <a id="submit-btn" th:href="@{/user/form}">submit</a>
+            <button type="submit" id="submit-btn">submit</button>
         </div>
+
     </form>
     <div class="dha">Don't have an account</div>
     <div class="signup">

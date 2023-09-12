@@ -9,10 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -30,37 +27,52 @@ public class UserController {
 
 
 
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @GetMapping("/checkEmail")
-    public String checkEmail(User user){
-         User user1 = userRepository.findByEmail(user.getEmail());
-         if(user1!=null){
-             if(user.getPassword().equals(user1.getPassword())){
-                 return "user";
-             }else{
-                 return "login";
-             }
-         }else{
-             return "login";
-         }
-    }
+
 
 
 
 
     @GetMapping("/form")
     public String start(Model model) {
-        System.out.println("HIIIII");
+
         Page<User> userList = userRepository.findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "date")));
         model.addAttribute("userList", userList);
+
 
         return "form";
     }
 
+    @RequestMapping(path = "/checkEmail",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = {
+                    MediaType.APPLICATION_ATOM_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            })
+//    @GetMapping("/checkEmail")
+    public String checkEmail(Model model,User user){
+        User user1 = userRepository.findByEmail(user.getEmail());
+        if(user.getEmail().equals("admin@gmail.com")){
+            return  "redirect:/user/form";
+        }
+
+        if(user1!=null){
+            if(user.getPassword().equals(user1.getPassword())){
+                model.addAttribute("user",userRepository.findByEmail(user.getEmail()));
+                return "userform";
+            }else{
+                return "login";
+            }
+        }else{
+            return "login";
+        }
+    }
 
     @RequestMapping(path = "/createUser",
             method = RequestMethod.POST,
