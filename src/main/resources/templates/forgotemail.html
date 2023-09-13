@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/login.css">
+  <title>Document</title>
+
+</head>
+
+<body >
+<div class="logo">
+  <img src="/logo.png">
+</div>
+
+<div class="form"  style="background-color:lightgray" >
+
+  <form action="/user/enterEmail/${email_Id}" method="POST">
+
+    <div>
+     Enter your email :
+    </div>
+    <div>
+      <input type="email" id="email_Id" name="email_Id">
+    </div>
+      <button id="submit-btn1" onsubmit="getvalue()" type="submit">submit</button>
+
+
+  </form>
+
+</div>
+
+
+
+</body>
+</html>

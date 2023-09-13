@@ -24,10 +24,14 @@ public class UserController {
         return "signup";
     }
 
-
-
-
-
+    @GetMapping("/forgotemail")
+    public String forgotemail(){
+         return "forgotemail";
+    }
+    @GetMapping("/confirm")
+    public String confirm(){
+        return "confirm";
+    }
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -127,4 +131,20 @@ public class UserController {
         return "redirect:/user/form";
 
     }
+//    @PostMapping("/enterEmail/{emailId}")
+    @RequestMapping(path = "/enterEmail/${email_Id}",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = {
+                    MediaType.APPLICATION_ATOM_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            })
+    public String redirect(@PathVariable String email_Id,Model model) {
+
+        System.out.println(email_Id);
+        model.addAttribute("email",email_Id);
+        User user = userRepository.findByEmail(email_Id);
+        return "redirect:/user/confirm";
+    }
+
 }
