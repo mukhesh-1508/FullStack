@@ -1,5 +1,6 @@
 package com.example.FullStack.controller;
 
+import com.example.FullStack.dto.ForgotPassDTO;
 import com.example.FullStack.model.User;
 import com.example.FullStack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,6 @@ public class UserController {
     public String login() {
         return "login";
     }
-
-
-
-
 
 
     @GetMapping("/form")
@@ -124,6 +121,7 @@ public class UserController {
                     MediaType.APPLICATION_JSON_VALUE
             })
     public String deleteUser(@PathVariable String email_Id) {
+        System.out.println(email_Id);
         User user = userRepository.findByEmail(email_Id);
 
         userRepository.delete(user);
@@ -131,20 +129,39 @@ public class UserController {
         return "redirect:/user/form";
 
     }
-//    @PostMapping("/enterEmail/{emailId}")
-    @RequestMapping(path = "/enterEmail/${email_Id}",
+
+    @RequestMapping(path = "/forget/{emailId}",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
-    public String redirect(@PathVariable String email_Id,Model model) {
+    public String redirect(@RequestParam String emailId,Model model) {
 
-        System.out.println(email_Id);
-        model.addAttribute("email",email_Id);
-        User user = userRepository.findByEmail(email_Id);
-        return "redirect:/user/confirm";
+        System.out.println(emailId);
+
+        model.addAttribute("email",emailId);
+
+        return "confirm";
     }
+    @RequestMapping(path = "/confirmPass",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = {
+                    MediaType.APPLICATION_ATOM_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            })
+    public String savePassword(ForgotPassDTO forgotPassDTO) {
+        System.out.println(forgotPassDTO);
+        ;
+         User user=userRepository.findByEmail(forgotPassDTO.getEmail());
+        System.out.print(forgotPassDTO.getEmail());
+         System.out.print(user);
+         user.setPassword(forgotPassDTO.getPassword());
+        return "redirect:/user/login";
+    }
+
+
 
 }

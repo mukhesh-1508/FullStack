@@ -13,36 +13,44 @@
 <div class="logo">
     <img src="/logo.png">
 </div>
-<div class="login">
 
-</div>
 <div class="form"  style="background-color:lightgray" >
 
-    <form  action="" method="POST">
+    <form  action="/user/confirmPass" method="POST">
 
+        <input type="text" name="email" style="display:none" th:value="${email}">
         <div>
              New password :
         </div>
         <div>
-            <input type="text"  name="new">
+            <input type="text"  name="new" id="new">
         </div>
         <div>
             Confirm password :
         </div>
         <div>
-            <input type="text"  name="new">
+            <input type="text"  name="password" id="password">
+        </div>
+        <div class="signup">
+
+            <button id="submit-btn1" onclick="validate()" type="submit">submit</button>
         </div>
 
-
     </form>
-    <div class="signup">
 
-        <a id="submit-btn1" th:href="@{/user/login}">submit</a>
-    </div>
 
 
 </div>
-
+<script>
+    function validate(){
+        let a=document.getElementById("new").value;
+        let b=document.getElementById("password").value;
+<!--        console.log(a+" "+b);-->
+        if(a!==b){
+          window.alert("type correct password");
+        }
+    }
+</script>
 
 
 </body>
