@@ -16,13 +16,13 @@
 
 <div class="form"  style="background-color:lightgray" >
 
-    <form  action="/user/confirmPass" method="POST">
+    <form  action="/user/confirmPage" method="GET">
 
-        <input type="text" name="email" style="display:none" th:value="${email}">
         <div>
              New password :
         </div>
         <div>
+            <input type="text" name="email" style="display:none" th:value="${email}">
             <input type="text"  name="new" id="new">
         </div>
         <div>
@@ -42,6 +42,7 @@
 
 </div>
 <script>
+    console.log(
     function validate(){
         let a=document.getElementById("new").value;
         let b=document.getElementById("password").value;

@@ -3,15 +3,19 @@ package com.example.FullStack.controller;
 import com.example.FullStack.dto.ForgotPassDTO;
 import com.example.FullStack.model.User;
 import com.example.FullStack.repository.UserRepository;
+import org.apache.logging.log4j.message.SimpleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.Date;
 
 @Controller
@@ -19,10 +23,16 @@ import java.util.Date;
 public class UserController {
 
     @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
     private UserRepository userRepository;
      @GetMapping("/signup")
     public String signup() {
         return "signup";
+    }
+    @GetMapping("/view")
+    public String view() {
+        return "view";
     }
 
     @GetMapping("/forgotemail")
@@ -109,6 +119,7 @@ public class UserController {
         updateUser.setDateOfBirth(String.valueOf(userDetails.getDateOfBirth()));
         updateUser.setPhoneNo(userDetails.getPhoneNo());
         updateUser.setDate(new Date());
+        updateUser.setPassword(userDetails.getPassword());
         userRepository.save(updateUser);
         return "redirect:/user/form";
     }
@@ -141,25 +152,34 @@ public class UserController {
 
         System.out.println(emailId);
 
+        User user=userRepository.findByEmail(emailId);
         model.addAttribute("email",emailId);
+//        String link="http://localhost:8080/user/confirmPage?email="+emailId;
+        String link="http://localhost:8080/user/confirmPage";
+        SimpleMailMessage  message=new SimpleMailMessage();
+        message.setFrom("mukheshg1508@gmail.com");
+        message.setTo(emailId);
+        message.setText(link);
+        mailSender.send(message);
+
+        return "view";
+    }
+    @GetMapping(path = "/confirmPage")
+
+    public String savePassword(  ForgotPassDTO forgotPassDTO) {
+//        System.out.println(email+"   "+password);
+//        System.out.println("kjdfkjsfhst");
+//        System.out.println(email);
+//         User user=userRepository.findByEmail(email);
+//        System.out.print(forgotPassDTO.getPassword());
+//         System.out.print(user);
+//         user.setPassword(user.getPassword());
+//         userRepository.save(user);
+//         System.out.println(user);
 
         return "confirm";
-    }
-    @RequestMapping(path = "/confirmPass",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            produces = {
-                    MediaType.APPLICATION_ATOM_XML_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE
-            })
-    public String savePassword(ForgotPassDTO forgotPassDTO) {
-        System.out.println(forgotPassDTO);
-        ;
-         User user=userRepository.findByEmail(forgotPassDTO.getEmail());
-        System.out.print(forgotPassDTO.getEmail());
-         System.out.print(user);
-         user.setPassword(forgotPassDTO.getPassword());
-        return "redirect:/user/login";
+//        System.out.print("after confirm");
+//        return "confirmPage";
     }
 
 
