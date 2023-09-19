@@ -117,14 +117,17 @@ public class UserController {
                     MediaType.APPLICATION_JSON_VALUE
             })
     public String updateUser(@PathVariable String email_Id, User userDetails) {
+        System.out.println(email_Id);
+        System.out.println(userDetails);
         User updateUser = userRepository.findByEmail(email_Id);
         System.out.println(updateUser.toString());
         updateUser.setFirstName(userDetails.getFirstName());
         updateUser.setLastName(userDetails.getLastName());
         updateUser.setDateOfBirth(String.valueOf(userDetails.getDateOfBirth()));
         updateUser.setPhoneNo(userDetails.getPhoneNo());
+        updateUser.setAddress(userDetails.getAddress());
         updateUser.setDate(new Date());
-        updateUser.setPassword(userDetails.getPassword());
+        System.out.println(updateUser);
         userRepository.save(updateUser);
         return "redirect:/user/form";
     }
@@ -141,6 +144,7 @@ public class UserController {
         User user = userRepository.findByEmail(email_Id);
 
         userRepository.delete(user);
+//        userRepository.save(user);
 
         return "redirect:/user/form";
 

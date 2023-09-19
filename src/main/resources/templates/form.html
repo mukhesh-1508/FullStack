@@ -50,8 +50,8 @@
             <td style="display:flex; column-gap:6px;">
                 <button onclick="handleEditRow(this)"><i class="fa-regular fa-pen-to-square fa-xl"></i></button>
                 <form id="deleteForm" th:action="@{/user/deleteUser/{email_Id}(email_Id=${todo.email})}" method="post">
+                    <button type="submit" onclick="deleteHandle()"><i class="fa-sharp fa-solid fa-trash fa-xl"></i></button>
                 </form>
-                <button type="submit" onclick="deleteHandle()"><i class="fa-sharp fa-solid fa-trash fa-xl"></i></button>
             </td>
         </tr>
         </tbody>
