@@ -47,7 +47,8 @@
 
 
     const handleEditRow = (btn) => {
-         selectedrow = btn.parentElement.parentElement;
+//    console.log(todo);
+        selectedrow = btn.parentElement.parentElement;
         const email = selectedrow.cells[2].innerHTML;
         const editUserForm = document.getElementById("userForm");
         document.getElementById("firstName").value = selectedrow.cells[0].innerHTML;
@@ -56,7 +57,6 @@
         document.getElementById("dateOfBirth").value = selectedrow.cells[3].innerHTML;
         document.getElementById("phoneNo").value = selectedrow.cells[4].innerHTML;
         document.getElementById("address").value = selectedrow.cells[5].innerHTML;
-        document.getElementById("password").value = selectedrow.cells[6].innerHTML;
          editUserForm.action = `/user/updateUser/${email}`;
 
         document.getElementById("form-title").innerHTML = "Edit Employee"

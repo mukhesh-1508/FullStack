@@ -16,13 +16,12 @@
 
 <div class="form"  style="background-color:lightgray" >
 
-    <form  action="/user/confirmPage" method="GET">
-
+    <form id="confirm-form" action="/user/reset/{email}/{password}" method="POST">
         <div>
              New password :
         </div>
         <div>
-            <input type="text" name="email" style="display:none" th:value="${email}">
+            <input type="text" id="email" name="email" style="display:none" th:value="${email}">
             <input type="text"  name="new" id="new">
         </div>
         <div>
@@ -33,7 +32,7 @@
         </div>
         <div class="signup">
 
-            <button id="submit-btn1" onclick="validate()" type="submit">submit</button>
+            <button id="submit-btn1" onclick="validate()" type="button">submit</button>
         </div>
 
     </form>
@@ -42,15 +41,21 @@
 
 </div>
 <script>
-    console.log(
     function validate(){
-        let a=document.getElementById("new").value;
+       let a=document.getElementById("new").value;
         let b=document.getElementById("password").value;
-<!--        console.log(a+" "+b);-->
+        console.log(a+" "+b);
         if(a!==b){
-          window.alert("type correct password");
+          window.alert("New password and confirm password should be same");
+        }
+        else{
+            let emailId = window.location.href.split("?")[1];
+            document.getElementById("email").value = emailId;
+            document.getElementById("confirm-form").submit();
         }
     }
+
+
 </script>
 
 

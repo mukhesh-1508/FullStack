@@ -26,26 +26,31 @@ public class UserController {
     private JavaMailSender mailSender;
     @Autowired
     private UserRepository userRepository;
-     @GetMapping("/signup")
-    public String signup() {
-        return "signup";
-    }
-    @GetMapping("/view")
-    public String view() {
-        return "view";
-    }
 
-    @GetMapping("/forgotemail")
-    public String forgotemail(){
-         return "forgotemail";
+
+    @GetMapping(path = "/login")
+    public String login(){
+        return "login";
     }
-    @GetMapping("/confirm")
+    @GetMapping(path = "/forgotemail")
+    public String forgotemail(){
+        return "forgotemail";
+    }
+    @GetMapping(path = "/confirm")
     public String confirm(){
         return "confirm";
     }
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+    @GetMapping(path = "/signup")
+    public String signup(){
+        return "signup";
+    }
+    @GetMapping(path = "/userform")
+    public String userform(){
+        return "userform";
+    }
+    @GetMapping(path = "/view")
+    public String view(){
+        return "view";
     }
 
 
@@ -155,7 +160,7 @@ public class UserController {
         User user=userRepository.findByEmail(emailId);
         model.addAttribute("email",emailId);
 //        String link="http://localhost:8080/user/confirmPage?email="+emailId;
-        String link="http://localhost:8080/user/confirmPage";
+        String link="http://localhost:8080/user/confirmPage?"+emailId;
         SimpleMailMessage  message=new SimpleMailMessage();
         message.setFrom("mukheshg1508@gmail.com");
         message.setTo(emailId);
@@ -165,22 +170,20 @@ public class UserController {
         return "view";
     }
     @GetMapping(path = "/confirmPage")
-
-    public String savePassword(  ForgotPassDTO forgotPassDTO) {
-//        System.out.println(email+"   "+password);
-//        System.out.println("kjdfkjsfhst");
-//        System.out.println(email);
-//         User user=userRepository.findByEmail(email);
-//        System.out.print(forgotPassDTO.getPassword());
-//         System.out.print(user);
-//         user.setPassword(user.getPassword());
-//         userRepository.save(user);
-//         System.out.println(user);
-
+    public String savePassword() {
         return "confirm";
-//        System.out.print("after confirm");
-//        return "confirmPage";
     }
+
+    @PostMapping("/reset/{email}/{password}")
+    public String reset(@RequestParam String email,@RequestParam String password){
+        System.out.println(email + " " + password);
+        User user=userRepository.findByEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+        return "login";
+    }
+
+
 
 
 
