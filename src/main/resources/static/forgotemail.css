@@ -28,18 +28,13 @@ padding-top: 10%;
   .logo{
   align-items: top;
   }
-
+/*
   form {
   display: grid;
   grid-template-columns: 1fr 1fr ;
   justify-content: center;
-  }
-img
-        {
-            height: 58px;
-            position: absolute;
-            left: 23px;
-        }
+  } */
+
   form div {
   padding-bottom: 10px;
   text-align: center;
@@ -48,11 +43,8 @@ img
   justify-content: center;
   text-align: center;
   font-size: large;
-   backgro
   }
-  .signup{
-  padding-top: 10%;
-  }
+
     #submit-btn1{
               text-decoration: none;
               color: black;
@@ -66,6 +58,12 @@ img
                border: 1px solid black;
                padding: 5px 10px;
                background-color: white;
+    }
+    img
+    {
+                height: 58px;
+                position: absolute;
+                left: 23px;
     }
 
           .dha{

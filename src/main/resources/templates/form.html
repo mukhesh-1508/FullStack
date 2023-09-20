@@ -23,7 +23,7 @@
             </div>
             <div class="Addbtn">
 <!--                <button  onclick="handleAddBtn()"><i class='fa-solid fa-user-plus fa-xl'></i></button>-->
-                <button id="add-btn" class="add" onclick="handleAddBtn()">Add</button>
+                <button id="add-btn" class="add" onclick="handleAddBtn()" >Add</button>
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
             <td th:text="${todo.phoneNo}"></td>
             <td th:text="${todo.address}"></td>
             <td style="display:flex; column-gap:6px;">
-                <button onclick="handleEditRow(this)"><i class="fa-regular fa-pen-to-square fa-xl"></i></button>
+                <button onclick="handleEditRow(this)" ><i class="fa-regular fa-pen-to-square fa-xl"></i></button>
                 <form id="deleteForm" th:action="@{/user/deleteUser/{email_Id}(email_Id=${todo.email})}" method="post">
                     <button type="submit" onclick="deleteHandle()"><i class="fa-sharp fa-solid fa-trash fa-xl"></i></button>
                 </form>

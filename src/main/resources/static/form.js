@@ -49,7 +49,6 @@
     const handleEditRow = (btn) => {
         selectedrow = btn.parentElement.parentElement;
         const email = selectedrow.cells[2].innerHTML;
-        if(email!==admin@gmail.com){
         const editUserForm = document.getElementById("userForm");
         document.getElementById("firstName").value = selectedrow.cells[0].innerHTML;
         document.getElementById("lastName").value = selectedrow.cells[1].innerHTML;
